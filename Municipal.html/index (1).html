@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>General Tinio, Nueva Ecija</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="preload" href="LOGO2.png" as="image">
+<link rel="preload" href="wee.mp3" as="audio">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      scroll-behavior: smooth;
+    }
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  object-fit: cover;
+  background-size: cover;
+}
+
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 14px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav a.active {
+     background: linear-gradient(to right, #2e7d32, #66bb6a);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 80px 20px 40px;
+      box-sizing: border-box;
+      animation: slideUp 0.8s ease-in-out;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      margin: 10px 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      background: transparent;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header img {
+      width: 120px;
+      margin-top: 25px;
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      margin: 0;
+    }
+
+    .header p {
+      font-size: 1.3rem;
+    }
+
+    h2 {
+      color: #2e7d32;
+      text-align: center;
+      font-family: 'Georgia', serif;
+      font-size: 3rem; 
+      margin-bottom: 40px;
+    }
+
+    h3 {
+      color: #388e3c;
+    }
+
+    .about img, .attraction img, .slideshow img, .history img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .slideshow {
+      position: relative;
+      max-width: 800px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .slideshow img {
+      width: 100%;
+      display: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slideshow img.active {
+      display: block;
+    }
+
+    .slide-text {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .footer {
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    form input, form textarea {
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form button {
+      background: #388e3c;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background: #2e7d32;
+    }
+
+    .back-to-top {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .back-to-top a {
+      color: #388e3c;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #music-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: #388e3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Better mobile navigation */
+@media (max-width: 768px) {
+  nav {
+    background: rgba(46, 125, 50, 0.95);
+    padding: 10px;
+  }
+  
+  nav a {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+    padding: 0 15px;
+  }
+
+  
+  .slide {
+    padding: 60px 15px 30px;
+  }
+}
+
+/* Add tablet breakpoint */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .slide {
+    padding: 70px 30px 40px;
+  }
+}
+/* Smooth scroll behavior for navigation */
+.slide {
+  scroll-behavior: smooth;
+  transition: all 0.5s ease-in-out;
+}
+
+/* Add hover effects */
+.officials img {
+  transition: transform 0.3s ease;
+}
+
+.officials img:hover {
+  transform: scale(1.1);
+}
+
+/* Add loading animation */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+    
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop id="bg-video" playsinline>
+    <source src="What the town of General Tinio looks like now_ Let's see in this video _ Nueva Ecija, Philippines 4K-yt.savetube.me.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <nav>
+    <a onclick="goToSlide(0)">Home</a>
+    <a onclick="goToSlide(1)">About</a>
+    <a onclick="goToSlide(2)">History</a>
+    <a onclick="goToSlide(3)">Attractions</a>
+    <a onclick="goToSlide(4)">Officials</a>
+    <a onclick="goToSlide(5)">Contact</a>
+    <a onclick="goToSlide(6)">Events</a>
+  </nav>
+
+  <div id="slider" class="container">
+    <div class="slide header">
+      <h1>Municipality of General Tinio</h1>
+      <p>Rich Culture. Beautiful Nature. Warm People.</p>
+      <img src="LOGO2.png" alt="Logo">
+    </div>
+
+    <div class="slide about">
+      <h2>About General Tinio</h2>
+      <div class="slideshow about-slideshow">
+        <img src="hayst.jpg" class="about-img active" alt="Scenery 1">
+        <img src="OIP.jpg" class="about-img" alt="Scenery 2">
+        <img src="OIP (1).jpg" class="about-img" alt="Scenery 3">
+        <img src="oar2.jpg" class="about-img" alt="Scenery 4">
+      </div>
+      <p>Our town is a place where farming is more than just work—it’s a way of life...</p>
+      <img src="1.jpg" alt="General Tinio Scenery">
+      <p>One thing we’re best known for is music! We have the most brass bands...</p>
+    </div>
+
+    <div class="slide history">
+      <h2>History of General Tinio</h2>
+      <p>Once known as Papaya, the Municipality of General Tinio traces its roots back...</p>
+      <img src="Papaya Provincial High School - Copy.jpg" alt="Historical Marker">
+      <p>In 1975, General Tinio had only six barrios...</p>
+    </div>
+
+    <div class="slide attractions">
+      <h2>Tourist Attractions</h2>
+      <div class="slideshow">
+        <img src="12345678.jpg" class="active" alt="Minalungao National Park">
+        <img src="bayukbok.jpg" alt="Bayukbok Cave">
+        <img src="s.jpg" alt="Papaya River">
+      </div>
+      <div class="slide-text">
+        <h3 id="attraction-title">Minalungao National Park</h3>
+        <p id="attraction-desc">Emerald waters, towering limestone formations, and eco-tourism activities...</p>
+      </div>
+    </div>
+
+   <div class="slide officials">
+  <h2>Local Officials</h2>
+
+  <div style="text-align: center;">
+    <img src="sherry.webp" alt="Mayor Sherry Ann Bolisay" style="width: 150px; border-radius: 50%;">
+    <p><strong>Mayor:</strong> Sherry Ann Bolisay</p>
+
+    <img src="melvin.jpg" alt="Vice Mayor Melvin Pascual" style="width: 150px; border-radius: 50%; margin-top: 20px;">
+    <p><strong>Vice Mayor:</strong> Melvin Pascual</p>
+  </div>
+
+  <h3>Municipal Councilors:</h3>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; text-align: center;">
+    <div>
+      <img src="ANGELO KUAME.jpg" alt="Angelo J. Bote" style="width: 120px; border-radius: 50%;">
+      <p>Angelo J. Bote</p>
+    </div>
+    <div>
+      <img src="arnold clabio.jpg" alt="Arnold M. Dalangin" style="width: 120px; border-radius: 50%;">
+      <p>Arnold M. Dalangin</p>
+    </div>
+    <div>
+      <img src="DWIGHT RAMOS.jpg" alt="Dwight Serrano" style="width: 120px; border-radius: 50%;">
+      <p>Dwight Serrano</p>
+    </div>
+    <div>
+      <img src="MYLENE KORAKOT.jpg" alt="Ma. Lina M. Bulacan" style="width: 120px; border-radius: 50%;">
+      <p>Ma. Lina M. Bulacan</p>
+    </div>
+    <div>
+      <img src="papi roy.jpg" alt="Roy A. Bulacan" style="width: 120px; border-radius: 50%;">
+      <p>Roy A. Bulacan</p>
+    </div>
+    <div>
+      <img src="REYNALDO PALDO.jpg" alt="TAMAYO, REYNALDO JR." style="width: 120px; border-radius: 50%;">
+      <p>TAMAYO, REYNALDO JR</p>
+    </div>
+    <div>
+      <img src="JUNLORIE PANCIT CANTON.jpg" alt="June B. Abesamis" style="width: 120px; border-radius: 50%;">
+      <p>June B. Abesamis</p>
+    </div>
+    <div>
+      <img src="LARRY GANDON.jpg" alt="Larry Gonzales" style="width: 120px; border-radius: 50%;">
+      <p>Larry Gonzales</p>
+    </div>
+  </div>
+</div>
+
+    <div class="slide contact-form-section">
+      <h2>Send Us a Message</h2>
+      <form action="mailto:info@generaltinio.gov.ph" method="POST" enctype="text/plain">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <h3>📍 Map of General Tinio</h3>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." width="100%" height="300" style="border:0; border-radius:10px;" allowfullscreen></iframe>
+      <footer class="footer">
+        <p>&copy; 2025 Municipality of General Tinio</p>
+        <p><i class="fa fa-envelope"></i> <a href="mailto:info@generaltinio.gov.ph" style="color:white;">info@generaltinio.gov.ph</a></p>
+      </footer>
+    </div>
+
+    <div class="slide events">
+      <h2>🎉 Local Festivals & Events</h2>
+      <ul>
+        <li><strong>Banatu Festival (March):</strong> Cultural parades, history-themed events, and community performances.</li>
+        <li><strong>Minalungao Eco Day (May):</strong> Adventure tourism day with rafting, hiking, and eco-awareness.</li>
+        <li><strong>Town Fiesta (November):</strong> Religious events, concerts, fairs, and fireworks.</li>
+      </ul>
+      <div class="back-to-top">
+        <a onclick="goToSlide(0)"><i class="fa fa-arrow-up"></i> Back to Top</a>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="wee.mp3" type="audio/mpeg">
+  </audio>
+  <button onclick="toggleMusic()" id="music-toggle">🎵 Play Music</button>
+
+  <script>
+    const slider = document.getElementById('slider');
+    const navLinks = document.querySelectorAll('nav a');
+
+    function goToSlide(index) {
+      slider.style.transform = `translateY(-${index * 100}vh)`;
+      navLinks.forEach(link => link.classList.remove('active'));
+      navLinks[index].classList.add('active');
+    }
+
+    goToSlide(0);
+
+    const aboutImages = document.querySelectorAll(".about-slideshow .about-img");
+    let aboutIndex = 0;
+    setInterval(() => {
+      aboutImages[aboutIndex].classList.remove("active");
+      aboutIndex = (aboutIndex + 1) % aboutImages.length;
+      aboutImages[aboutIndex].classList.add("active");
+    }, 4000);
+
+    const images = document.querySelectorAll(".attractions .slideshow img");
+    const titles = ["Minalungao National Park", "Bayukbok Cave", "Papaya River"];
+    const descriptions = [
+      "Emerald waters, towering limestone formations, and eco-tourism activities...",
+      "Explore underground caverns filled with stalactites and natural beauty...",
+      "Peaceful waters, ideal for kayak rides and panoramic views."
+    ];
+    const titleElem = document.getElementById("attraction-title");
+    const descElem = document.getElementById("attraction-desc");
+
+    let current = 0;
+    setInterval(() => {
+      images[current].classList.remove("active");
+      current = (current + 1) % images.length;
+      images[current].classList.add("active");
+      titleElem.textContent = titles[current];
+      descElem.textContent = descriptions[current];
+    }, 4000);
+
+    const music = document.getElementById("bg-music");
+    const musicBtn = document.getElementById("music-toggle");
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        musicBtn.textContent = "⏸️ Pause Music";
+      } else {
+        music.pause();
+        musicBtn.textContent = "🎵 Play Music";
+      }
+    }
+    
+  </script>
+
+</body>
+</html>
